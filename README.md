@@ -2,6 +2,8 @@
 
 A small Rust limit-order-book matching POC. It processes integer tick prices and lot quantities in command order, with price priority first and a selectable allocation rule within the best price level.
 
+Still a work in progress; the scope below is what exists today.
+
 ## Try it
 
 ```sh
