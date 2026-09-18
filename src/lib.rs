@@ -1,7 +1,5 @@
 mod engine;
 mod model;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-}
+pub use engine::{Engine, EngineError};
+pub use model::{BookSnapshot, Command, Event, LevelSnapshot, Order, Policy, Side};

@@ -1,0 +1,7 @@
+# Prices are integer ticks; quantities are integer lots.
+sell 1 100 5
+sell 2 100 5
+sell 3 101 4
+buy 4 100 5
+buy 5 101 3
+cancel 3
