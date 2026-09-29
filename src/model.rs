@@ -18,6 +18,7 @@ pub struct Order {
 pub enum Command {
     Place(Order),
     Cancel(u64),
+    Modify(u64, Order),
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]

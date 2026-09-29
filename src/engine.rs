@@ -42,7 +42,42 @@ impl Engine {
         match command {
             Command::Place(order) => self.place(order, events),
             Command::Cancel(id) => self.cancel(id, events),
+            Command::Modify(id, order) => self.modify(order, id, events),
         }
+    }
+
+    fn modify(
+        &mut self,
+        incoming: Order,
+        id: u64,
+        events: &mut Vec<Event>,
+    ) -> Result<(), EngineError> {
+        if !self.active.contains_key(&id) {
+            events.push(Event::Rejected {
+                id,
+                reason: "order is not resting",
+            });
+            return Ok(());
+        }
+
+        if incoming.price == 0 || incoming.quantity == 0 {
+            events.push(Event::Rejected {
+                id: incoming.id,
+                reason: "price and quantity must be positive",
+            });
+            return Ok(());
+        }
+
+        if self.seen.contains(&incoming.id) {
+            events.push(Event::Rejected {
+                id: incoming.id,
+                reason: "order ID already used",
+            });
+            return Ok(());
+        }
+
+        self.cancel(id, events)?;
+        self.place(incoming, events)
     }
 
     fn place(&mut self, mut incoming: Order, events: &mut Vec<Event>) -> Result<(), EngineError> {
